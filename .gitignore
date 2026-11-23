@@ -1,0 +1,28 @@
+node_modules/
+.next/
+out/
+build/
+.env
+.env.*
+!.env.example
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+playwright-report/
+test-results/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+
+# Fixture E2E (cookie sesi uji lokal, jangan di-commit)
+.e2e/
+
+# Klaster PostgreSQL uji lokal (dibuat oleh `npm run db:up`) + checkpoint berkas
+.pgdata/
+.checkpoints/
+
+# Paket referensi pemilik (handoff) — konteks perancangan, bukan bagian rilis
+handoff/
+BUSINESS_FLOW_HANDOFF_V3/

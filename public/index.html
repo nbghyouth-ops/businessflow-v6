@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Business Flow</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #F4F6F9;
+      color: #111827;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      padding: 24px;
+    }
+    .card {
+      max-width: 440px;
+      background: #fff;
+      border: 1px solid #E5E7EB;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+    }
+    h1 { margin: 0 0 8px; font-size: 20px; }
+    p { margin: 0; font-size: 14px; line-height: 1.55; color: #6B7280; }
+    code { background: #EEF1FF; color: #3B4FF8; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>URL server belum diatur</h1>
+    <p>
+      Aplikasi Android Business Flow membutuhkan alamat server produksi sebelum dijalankan.
+      Atur <code>PRODUCTION_URL</code> di <code>capacitor.config.ts</code> atau jalankan build dengan
+      <code>CAP_SERVER_URL=https://domain-anda.vercel.app npx cap sync android</code>.
+    </p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,532 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Business Flow — Design tokens v4.1
+   Modern Banking Dashboard: periwinkle #B8C5F8 + hitam #050505 + Plus Jakarta Sans.
+   Sumber: Lampiran D1 §3.2–3.6 dan docs/06 §2.
+   Aturan: komponen TIDAK menulis warna mentah; semua lewat token di bawah.
+   ========================================================================== */
+@theme {
+  /* ── Palet dokumen (nama kanonik) ─────────────────────────────────────── */
+  --color-canvas: #ffffff;
+  --color-accent: #b8c5f8;
+  --color-accent-strong: #8fa3f0;
+  --color-accent-soft: #b2c1f8;
+  --color-accent-deep: #9eb0f5;
+  --color-action: #050505;
+  --color-action-hover: #18181b;
+  --color-surface-2: #f3f4f6;
+  --color-surface-hover: #eaecef;
+  --color-ink-main: #0a0a0a;
+  --color-body: #4b5563;
+  --color-on-accent: #374151;
+  --color-border-subtle: #e5e7eb;
+  --color-ok: #067647;
+  --color-warn-ink: #b54708;
+  --color-danger-ink: #b42318;
+
+  /* ── Alias utilitas yang dipakai seluruh komponen ─────────────────────── */
+  --color-primary: #050505;        /* aksi utama (dulu cobalt) */
+  --color-primary-deep: #050505;   /* tombol/link utama */
+  --color-primary-dark: #18181b;   /* hover */
+  --color-primary-light: #9eb0f5;  /* aksen lembut, titik status */
+  --color-primary-bg: #edf0fe;     /* latar hover aksen */
+  --color-surface: #f7f8fb;        /* kanvas konten inset */
+  --color-sidebar: #b8c5f8;        /* sidebar periwinkle */
+  --color-sidebar-hover: #cfd8fb;
+  --color-cream: #f3f4f6;
+  --color-gold: #8fa3f0;
+  --color-gold-light: #b8c5f8;
+  --color-coral: #b42318;
+  --color-coral-light: #fecaca;
+  --color-sky: #8fa3f0;
+  --color-success: #067647;
+  --color-danger: #b42318;
+  --color-ink: #0a0a0a;
+  --color-ink-2: #5b6472;          /* 5,44:1 di #F3F4F6 */
+  --color-muted: #6b7280;
+  --color-success-text: #157a3a;
+  --color-input-border: #6b7280;   /* batas kontrol ≥3:1 (WCAG 1.4.11) */
+  --color-line: #e5e7eb;
+  --color-divider: #f1f2f4;
+
+  /* ── Token hasil migrasi 2026-11-19 (komponen tidak lagi menulis hex) ─── */
+  --color-white: #ffffff;
+  --color-success-deep: #05603a;
+  --color-ink-900: #111827;
+  --color-action-deep: #141518;
+  --color-legacy-cobalt-deep: #2a3bd4;
+  --color-google-green: #34a853;
+  --color-google-blue: #4285f4;
+  --color-danger-deep: #7f1d14;
+  --color-danger-text: #991b1b;
+  --color-warn-deep: #9a420c;
+  --color-disabled: #9ca3af;
+  --color-danger-strong: #a12a1f;
+  --color-danger-error: #b91c1c;
+  --color-accent-border: #c7d2fe;
+  --color-success-bg: #e7f6ec;
+  --color-google-red: #ea4335;
+  --color-success-bg-alt: #ecfdf3;
+  --color-surface-3: #f1f5f9;
+  --color-surface-4: #f4f6f9;
+  --color-google-yellow: #fbbc05;
+  --color-danger-bg-alt: #fdedeb;
+  --color-warn-bg-strong: #fed7aa;
+  --color-danger-bg: #fef2f2;
+  --color-warn-bg: #fef6e7;
+  --color-warn-surface: #fff5eb;
+
+  /* ── Tipografi, bentuk, gerak ─────────────────────────────────────────── */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius-sidebar: 24px;
+  --radius-card: 24px;
+  --radius-card-small: 20px;
+  --radius-input: 12px;
+  --radius-pill: 9999px;
+  --shadow-card: 0 1px 2px rgba(10, 10, 10, 0.03);
+  --shadow-pop: 0 16px 40px rgba(10, 10, 10, 0.14);
+  --shadow-float: 0 24px 60px rgba(10, 10, 10, 0.16);
+  --focus-ring: 3px solid #050505;
+  --focus-offset: 2px;
+}
+
+html {
+  color-scheme: light;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.tnum,
+td.num,
+.kpi-value,
+.money,
+table td.r,
+table th.r {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: 8px;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Formulir ───────────────────────────────────────────────────────────── */
+.field-input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--color-input-border);
+  background: #fff;
+  padding: 8px 14px;
+  color: var(--color-ink);
+  font-size: 14px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field-input:focus {
+  border-color: var(--color-action);
+  box-shadow: 0 0 0 3px rgba(5, 5, 5, 0.12);
+  outline: none;
+}
+.field-input:disabled {
+  background: var(--color-surface-2);
+  color: var(--color-ink-2);
+}
+.field-input[aria-invalid="true"] {
+  border-color: var(--color-danger-ink);
+}
+
+/* ── Tabel ──────────────────────────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-card-small);
+  border: 1px solid var(--color-line);
+  background: #fff;
+}
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table-wrap th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-ink-2);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 12px 16px;
+  background: var(--color-surface-2);
+  white-space: nowrap;
+}
+.table-wrap td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-line);
+  vertical-align: middle;
+}
+.table-wrap tbody tr:hover {
+  background: var(--color-surface-hover);
+}
+.table-wrap .r {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: var(--color-action);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: var(--radius-input);
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 8px;
+}
+
+/* ── Animasi ──────────────────────────────────────────────────────────────
+   BF-049: animasi masuk hanya memakai transform, bukan opacity. Opacity < 1
+   membuat kontras teks terukur turun (axe memblokir 3.87:1) walaupun setelah
+   200 ms hasilnya normal — jadi akar masalahnya di keyframe, bukan di tes. */
+@keyframes bfPageEnter {
+  from { transform: translateY(6px); }
+  to { transform: translateY(0); }
+}
+@keyframes bfModalIn {
+  from { transform: translateY(16px) scale(0.985); }
+  to { transform: translateY(0) scale(1); }
+}
+@keyframes bfSheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes bfStaggerIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.anim-page-enter { animation: bfPageEnter 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.anim-modal-in { animation: bfModalIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.anim-sheet-up { animation: bfSheetUp 200ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.anim-stagger-item { animation: bfStaggerIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+.safe-pb { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+.safe-pt { padding-top: max(0.75rem, env(safe-area-inset-top)); }
+.pb-nav { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+
+/* Motion tokens v4.1: 90–200 ms, cubic-bezier(0.2, 0.8, 0.2, 1) */
+:root {
+  --dur-press: 110ms;
+  --dur-hover: 150ms;
+  --dur-content: 180ms;
+  --dur-modal: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+button:not(:disabled),
+[role="button"],
+summary,
+.pressable {
+  transition: transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-hover) ease, border-color var(--dur-hover) ease,
+    color var(--dur-hover) ease, box-shadow var(--dur-hover) ease,
+    opacity var(--dur-hover) ease;
+}
+button:not(:disabled):active,
+[role="button"]:active,
+.pressable:active {
+  transform: scale(0.98);
+}
+.card-hover {
+  transition: border-color var(--dur-hover) ease, transform var(--dur-hover) var(--ease-out);
+}
+@media (hover: hover) {
+  .card-hover:hover { border-color: var(--color-accent-strong); }
+}
+
+/* Flat di aplikasi: kartu tanpa bayangan, bayangan hanya landing/popover */
+.card {
+  box-shadow: none;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: #fff;
+}
+
+@keyframes bfShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton {
+  border-radius: var(--radius-input);
+  min-height: 1em;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    #f8f9fb 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: bfShimmer 1.4s linear infinite;
+}
+
+@keyframes bfDropIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.anim-drop-in { animation: bfDropIn 160ms var(--ease-out) both; transform-origin: top right; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 360ms var(--ease-out), transform 360ms var(--ease-out);
+}
+.reveal.reveal-in { opacity: 1; transform: none; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 50ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 100ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 150ms; }
+
+.topbar-scrolled { border-bottom-color: var(--color-line); }
+.topbar { transition: box-shadow var(--dur-hover) ease, border-color var(--dur-hover) ease; }
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--p, 0));
+  background: var(--color-action);
+  z-index: 60;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  button:not(:disabled):active,
+  [role="button"]:active,
+  .pressable:active { transform: none; }
+  .skeleton { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ============================================================================
+   Invariant anti-clipping (docs/06 §6, menutup R-19/REF-02)
+   ========================================================================== */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(5, 5, 5, 0.48);
+  backdrop-filter: blur(2px);
+  padding: 0;
+  padding-top: env(safe-area-inset-top);
+}
+.dialog-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100dvh - 1rem);
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--shadow-pop);
+}
+.dialog-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-line);
+  background: #fff;
+}
+.dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+.dialog-foot {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-line);
+  background: #fff;
+}
+@media (min-width: 640px) {
+  .dialog-overlay { align-items: center; padding: 16px; }
+  .dialog-panel { border-radius: 24px; max-height: calc(100dvh - 2rem); }
+}
+.dialog-panel-full { max-height: calc(100dvh - 0.5rem); }
+@media (min-width: 640px) {
+  .dialog-panel-full { max-height: calc(100dvh - 2rem); }
+}
+body.bf-scroll-locked { overflow: hidden; }
+
+/* ============================================================================
+   Komponen visual v4.1
+   ========================================================================== */
+/* Kartu saldo / akun (periwinkle) */
+.balance-card {
+  border-radius: 24px;
+  background: linear-gradient(135deg, #b8c5f8 0%, #a8b8f6 100%);
+  color: var(--color-ink);
+  padding: 20px;
+}
+.account-card {
+  scroll-snap-align: start;
+  flex: 0 0 168px;
+  border-radius: 20px;
+  padding: 16px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  text-align: left;
+}
+.account-card[data-active="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent-strong);
+}
+/* BF-049: di kartu aksen, teks sekunder wajib memakai on-accent (6.1:1), bukan
+   ink-2 (3.52:1). Ditulis di sini agar semua pemakaian .account-card ikut benar. */
+.account-card[data-active="true"] .text-ink-2,
+.account-card[data-active="true"] [class*="text-ink-2"] {
+  color: var(--color-on-accent);
+}
+.scroll-snap-x {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+/* Sidebar periwinkle: rail ikon tablet */
+.bf-sidebar {
+  background: var(--color-accent);
+  border-radius: 24px;
+}
+.bf-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  border-radius: var(--radius-pill);
+  padding: 0 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-on-accent);
+}
+.bf-nav-item:hover { background: rgba(255, 255, 255, 0.42); }
+.bf-nav-item[aria-current="page"] {
+  background: var(--color-action);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Bottom navigation ponsel: 5 slot, tinggi 56 + safe-area */
+/* UI-02: `display:grid` di kelas ini MENANG atas utilitas `md:hidden` Tailwind
+   (CSS kustom ditulis setelah layer utility), sehingga bottom-nav tetap tampil di
+   1365 px bersama sidebar. Visibilitas karena itu ditetapkan di sini. */
+.bf-bottom-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: stretch;
+  height: calc(56px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #fff;
+  border-top: 1px solid var(--color-line);
+}
+@media (min-width: 768px) {
+  .bf-bottom-nav { display: none; }
+}
+.bf-bottom-nav a,
+.bf-bottom-nav button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-ink-2);
+}
+.bf-bottom-nav [aria-current="page"] { color: var(--color-ink); }
+.bf-bottom-nav [aria-current="page"] .bf-nav-ico {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+.bf-nav-ico {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 26px;
+  border-radius: 9999px;
+  color: currentColor;
+}
+
+/* Landing: kubah periwinkle */
+.arch {
+  border-radius: 220px 220px 32px 32px;
+  background: linear-gradient(160deg, #b8c5f8 0%, #a8b8f6 100%);
+}
+.arch-sm { border-radius: 160px 160px 28px 28px; }
+.hero-glow {
+  background: radial-gradient(60% 60% at 50% 0%, rgba(184, 197, 248, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
+}
+.hl-periwinkle {
+  background: var(--color-accent);
+  border-radius: 14px;
+  padding: 0.04em 0.28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.stat-bar { background: var(--color-accent-soft); border-radius: 9999px; }
